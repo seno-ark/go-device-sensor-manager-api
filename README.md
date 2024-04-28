@@ -28,6 +28,11 @@ Migrate database schema
 make migrate-up
 ```
 
+Install all dependencies
+```
+go mod tidy
+```
+
 Start the application in dev mode
 ```
 make dev
