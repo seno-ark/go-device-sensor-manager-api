@@ -1,0 +1,492 @@
+definitions:
+  entities.CreateSensorPayload:
+    properties:
+      description:
+        example: First Sensor
+        type: string
+      device_id:
+        example: d2431891-c5e4-462d-bf9b-7a194d5bebda
+        type: string
+      name:
+        example: 'Sensor #1'
+        type: string
+      type:
+        example: temperature
+        type: string
+    required:
+    - name
+    type: object
+  entities.CreateUpdateDevicePayload:
+    properties:
+      description:
+        example: First device
+        type: string
+      name:
+        example: 'Device #1'
+        type: string
+      status:
+        example: active
+        type: string
+    required:
+    - name
+    type: object
+  entities.Device:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entities.Sensor:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      device_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  entities.UpdateSensorPayload:
+    properties:
+      description:
+        example: First Sensor v2
+        type: string
+      name:
+        example: 'Sensor #1.2'
+        type: string
+    required:
+    - name
+    type: object
+  util.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      meta:
+        $ref: '#/definitions/util.ResponseMeta'
+      validation_errors:
+        items:
+          type: string
+        type: array
+    type: object
+  util.ResponseMeta:
+    properties:
+      count:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: This is a simple api server to manage devices and sensors
+  title: Device-Sensor API
+  version: "1.0"
+paths:
+  /v1/devices:
+    get:
+      description: Get list of Device.
+      parameters:
+      - description: Pagination page number (default 1, max 500)
+        example: 1
+        in: query
+        name: page
+        type: integer
+      - description: Pagination data limit  (default 10, max 100)
+        example: 10
+        in: query
+        name: count
+        type: integer
+      - description: 'Data sorting (value: name/created_at/updated_at). For desc order,
+          use prefix ''-'''
+        example: -created_at
+        in: query
+        name: sort
+        type: string
+      - description: Keyword for searching device by title or content
+        example: raspi
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.Device'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Get list of Device.
+      tags:
+      - Devices
+    post:
+      consumes:
+      - application/json
+      description: Create new Device.
+      parameters:
+      - description: Device data
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateUpdateDevicePayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Device'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Create Device.
+      tags:
+      - Devices
+  /v1/devices/{device_id}:
+    delete:
+      description: Delete Device.
+      parameters:
+      - description: Device ID
+        example: 01HQSH92SNYQVCBDSD38XNBRYM
+        in: path
+        name: device_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Delete Device.
+      tags:
+      - Devices
+    get:
+      description: Get device by device ID.
+      parameters:
+      - description: Device ID
+        in: path
+        name: device_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Device'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Get device by device ID.
+      tags:
+      - Devices
+    put:
+      consumes:
+      - application/json
+      description: Update existing Device.
+      parameters:
+      - description: Device ID
+        example: 01HQSH92SNYQVCBDSD38XNBRYM
+        in: path
+        name: device_id
+        required: true
+        type: string
+      - description: Device data
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateUpdateDevicePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Device'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Update Device.
+      tags:
+      - Devices
+  /v1/sensors:
+    get:
+      description: Get list of Sensor.
+      parameters:
+      - description: Pagination page number (default 1, max 500)
+        example: 1
+        in: query
+        name: page
+        type: integer
+      - description: Pagination data limit  (default 10, max 100)
+        example: 10
+        in: query
+        name: count
+        type: integer
+      - description: 'Data sorting (value: name/created_at/updated_at). For desc order,
+          use prefix ''-'''
+        example: -created_at
+        in: query
+        name: sort
+        type: string
+      - description: Filter sensors by device ID
+        example: 96a5ec77-9012-4bf3-b08e-39ef4c07fcce
+        in: query
+        name: device_id
+        type: string
+      - description: Keyword for searching sensors by name or description
+        example: soil
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.Sensor'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Get list of Sensor.
+      tags:
+      - Sensors
+    post:
+      consumes:
+      - application/json
+      description: Create new Sensor.
+      parameters:
+      - description: Sensor data
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entities.CreateSensorPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Sensor'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Create Sensor.
+      tags:
+      - Sensors
+  /v1/sensors/{sensor_id}:
+    delete:
+      description: Delete Sensor.
+      parameters:
+      - description: Sensor ID
+        example: 96a5ec77-9012-4bf3-b08e-39ef4c07fcce
+        in: path
+        name: sensor_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Delete Sensor.
+      tags:
+      - Sensors
+    get:
+      description: Get sensor by sensor ID.
+      parameters:
+      - description: Sensor ID
+        in: path
+        name: sensor_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Sensor'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Get sensor by sensor ID.
+      tags:
+      - Sensors
+    put:
+      consumes:
+      - application/json
+      description: Update existing Sensor.
+      parameters:
+      - description: Sensor ID
+        example: 96a5ec77-9012-4bf3-b08e-39ef4c07fcce
+        in: path
+        name: sensor_id
+        required: true
+        type: string
+      - description: Sensor data
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UpdateSensorPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Sensor'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Update Sensor.
+      tags:
+      - Sensors
+  /v1/sensors/types:
+    get:
+      description: Get Sensor Types.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Response'
+      summary: Get Sensor Types.
+      tags:
+      - Sensors
+swagger: "2.0"
