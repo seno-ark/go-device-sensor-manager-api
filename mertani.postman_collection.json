@@ -1,0 +1,356 @@
+{
+	"info": {
+		"_postman_id": "ecb5dc00-8f36-478b-b5d2-ccb214033671",
+		"name": "mertani",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10778958"
+	},
+	"item": [
+		{
+			"name": "Create Device",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Device1\",\n  \"description\": \"Device 1\",\n  \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/v1/devices",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Device",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Device#1\",\n  \"description\": \"Device 2\",\n  \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/v1/devices/:device_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"devices",
+						":device_id"
+					],
+					"variable": [
+						{
+							"key": "device_id",
+							"value": "34218a6e-0b4d-4af4-a613-430d37ffbd3f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Device",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/devices/:device_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"devices",
+						":device_id"
+					],
+					"variable": [
+						{
+							"key": "device_id",
+							"value": "34218a6e-0b4d-4af4-a613-430d37ffbd3f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Device",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/devices/:device_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"devices",
+						":device_id"
+					],
+					"variable": [
+						{
+							"key": "device_id",
+							"value": "34218a6e-0b4d-4af4-a613-430d37ffbd3f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Device List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/devices",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Optional, Default=1, Max=500",
+							"disabled": true
+						},
+						{
+							"key": "count",
+							"value": "1",
+							"description": "Optional, Default=10, Max=100",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "updated_at",
+							"description": "Optional, Default=-created_at, Availables: name, created_at, updated_at (use \"-\" prefix for DESC)",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "2",
+							"description": "Optional, Search by name or description",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Sensor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"device_id\": \"d2431891-c5e4-462d-bf9b-7a194d5bebda\",    \n  \"description\": \"sensor1.1\",\n  \"name\": \"sensor #1.1\",\n  \"type\": \"air\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/v1/sensors",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Sensor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"description\": \"sensor1.2\",\n  \"name\": \"sensor #1.2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/v1/sensors/:sensor_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors",
+						":sensor_id"
+					],
+					"variable": [
+						{
+							"key": "sensor_id",
+							"value": "1636b59f-7237-48bd-9e9a-811427a4935c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sensor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/sensors/:sensor_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors",
+						":sensor_id"
+					],
+					"variable": [
+						{
+							"key": "sensor_id",
+							"value": "1636b59f-7237-48bd-9e9a-811427a4935c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sensor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/sensors/:sensor_id",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors",
+						":sensor_id"
+					],
+					"variable": [
+						{
+							"key": "sensor_id",
+							"value": "1636b59f-7237-48bd-9e9a-811427a4935c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sensor List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/sensors",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Optional, Default=1, Max=500",
+							"disabled": true
+						},
+						{
+							"key": "count",
+							"value": "1",
+							"description": "Optional, Default=10, Max=100",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "updated_at",
+							"description": "Optional, Default=-created_at, Availables: name, created_at, updated_at (use \"-\" prefix for DESC)",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "1",
+							"description": "Optional, Search by name or description",
+							"disabled": true
+						},
+						{
+							"key": "device_id",
+							"value": "fdec0df4-98a1-43f9-a558-ab40d612abc0",
+							"description": "Optional, Filter by device id",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sensor Types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/v1/sensors/types",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"v1",
+						"sensors",
+						"types"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
